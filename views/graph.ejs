@@ -1,0 +1,328 @@
+<%- include("_header"); -%>
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 50%;
+  }
+
+  th,
+  td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  #chart {
+    width: 80%;
+    margin: 20px auto;
+  }
+
+  h1 {
+    text-align: center; /* จัดหัวข้อให้อยู่ตรงกลาง */
+  }
+</style>
+
+<h1>ตาราง แสดงข้อมูล</h1>
+
+<!-- <div class="month-selection"> -->
+  <div class="month-selection" style="display: flex; align-items: center">
+    <h5 style="margin-right: 10px">แสดงข้อมูลรายเดือน:</h5>
+    <select
+      class="form-control month-filter"
+      style="width: 150px"
+      onchange="filterData(this.value)"
+    >
+      <option value="">แสดงทุกเดือน</option>
+      <option value="/1/">มกราคม</option>
+      <option value="/2/">กุมภาพันธ์</option>
+      <option value="/3/">มีนาคม</option>
+      <option value="/4/">เมษายน</option>
+      <option value="/5/">พฤษภาคม</option>
+      <option value="/6/">มิถุนายน</option>
+      <option value="/7/">กรกฎาคม</option>
+      <option value="/8/">สิงหาคม</option>
+      <option value="/9/">กันยายน</option>
+      <option value="/10/">ตุลาคม</option>
+      <option value="/11/">พฤศจิกายน</option>
+      <option value="/12/">ธันวาคม</option>
+    </select>
+    <br> <!-- เพิ่มบรรทัดใหม่ที่นี่ -->
+    <h5 style="margin-right: 10px">แสดงข้อมูลรายวัน:</h5>
+    <select
+      class="form-control month-filter"
+      style="width: 150px"
+      onchange="filterData(this.value)"
+    >
+      <option value="">แสดงทุกวัน</option>
+      <option value="1/">วันที่1</option>
+      <option value="2/">วันที่2</option>
+      <option value="3/">วันที่3</option>
+      <option value="4/">วันที่4</option>
+      <option value="5/">วันที่5</option>
+      <option value="6/">วันที่6</option>
+      <option value="7/">วันที่7</option>
+      <option value="8/">วันที่8</option>
+      <option value="9/">วันที่9</option>
+      <option value="10/">วันที่10</option>
+      <option value="11/">วันที่11</option>
+      <option value="12/">วันที่12</option>
+      <option value="13/">วันที่13</option>
+      <option value="14/">วันที่14</option>
+      <option value="15/">วันที่15</option>
+      <option value="16/">วันที่16</option>
+      <option value="17/">วันที่17</option>
+      <option value="18/">วันที่18</option>
+      <option value="19/">วันที่19</option>
+      <option value="20/">วันที่20</option>
+      <option value="21/">วันที่21</option>
+      <option value="22/">วันที่22</option>
+      <option value="23/">วันที่23</option>
+      <option value="24/">วันที่24</option>
+      <option value="25/">วันที่25</option>
+      <option value="26/">วันที่26</option>
+      <option value="27/">วันที่27</option>
+      <option value="28/">วันที่28</option>
+      <option value="29/">วันที่29</option>
+      <option value="30/">วันที่30</option>
+      <option value="31/">วันที่31</option>
+    </select>
+  </div>
+<!-- </div> -->
+
+
+
+
+
+
+
+
+  
+
+
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css"
+/>
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.datatables.net/datetime/1.1.1/css/dataTables.dateTime.css"
+/>
+
+<table id="data-table">
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>IR</th>
+      <th>BPM</th>
+      <th>Avg BPM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let i = 0; i < IRData.length; i++) { %>
+    <tr>
+      <td><%= IRData[i].time %></td>
+      <td><%= IRData[i]._value %></td>
+      <td><%= BPMData[i]._value %></td>
+      <td><%= AvgBPMData[i]._value %></td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<a href="/iot" class="btn btn-info"> ย้อนกลับ</a>
+
+<div id="chart"></div>
+
+<%- include("_footer"); -%>
+<script>
+  document.addEventListener("DOMContentLoaded", async function () {
+    // Initialize DataTable
+    $("#data-table").DataTable();
+
+    // Your existing chart code...
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<!-- Add jQuery and DataTables JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+
+
+<script>
+  // Assuming dataTable is initialized somewhere before filterData function is called
+  var dataTable = $('#example').DataTable();
+
+  function filterData(selectedDate) {
+    dataTable.column(0).search(selectedDate).draw();
+  }
+</script>
+<script>
+  var dataTable = $("#data-table").DataTable({
+    // Add your DataTable configuration options here
+    columns: [
+      {
+        data: "time",
+        render: function (data, type, row, meta) {
+          if (type === "display") {
+            var parts = data.split("/");
+            // Ensure date parts are in the format MM/DD/YYYY
+            var formattedDate = parts[1] + "/" + parts[0] + "/" + parts[2];
+            var date = new Date(formattedDate);
+            var formattedTime = date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            return date.toLocaleDateString("en-GB", { day: 'numeric', month: 'numeric', year: 'numeric' }) + " " + formattedTime;
+          }
+          return data;
+        },
+      },
+      // Add other columns as needed
+      { data: "IR" },
+      { data: "BPM" },
+      { data: "AvgBPM" },
+    ],
+    // Add other DataTable options as needed
+  });
+
+  // Add the month selection filter
+  var monthFilter = $(
+    '<select type="date"  class="form-control month-filter" style="width: 150px;"><option value="">All Months</option></select>'
+  )
+    .appendTo(".month-selection")
+    .on("change", function () {
+      var selectedMonth = $(this).val();
+      dataTable.column(0).search(selectedMonth).draw();
+    });
+
+  // Extract unique months from the table and populate the filter
+  var uniqueMonths = []; // สร้าง array เพื่อเก็บวันที่ที่ไม่ซ้ำกัน
+  dataTable
+    .column(0)
+    .data()
+    .unique()
+    .sort()
+    .each(function (month) {
+      var dateParts = month.split(" "); // แยกวันที่และเวลา
+      var dateOnly = dateParts[0]; // เลือกเฉพาะส่วนของวันที่
+      if (!uniqueMonths.includes(dateOnly)) { // ตรวจสอบว่าวันที่ซ้ำกันหรือไม่
+        uniqueMonths.push(dateOnly); // เพิ่มวันที่เข้าไปใน array ถ้าไม่มีการซ้ำซ้อน
+        monthFilter.append(
+          '<option value="' + dateOnly + '">' + dateOnly + "</option>"
+        );
+      }
+    });
+</script>
+
+
+
+
+
+<!-- 
+<script>
+  document.addEventListener("DOMContentLoaded", async function () {
+    // Prepare data for chart
+    const chartData = [];
+    for (let i = 0; i < data.IRData.length; i++) {
+  if (data.IRData[i].time && data.IRData[i].value !== undefined) {
+    const irValue = parseFloat(data.IRData[i].value);
+    const bpmValue = parseFloat(data.BPMData[i].value);
+    const avgBpmValue = parseFloat(data.AvgBPMData[i].value);
+
+    chartData.push({
+      x: new Date(data.IRData[i].time),
+      y1: isNaN(irValue) ? null : irValue,
+      y2: isNaN(bpmValue) ? null : bpmValue,
+      y3: isNaN(avgBpmValue) ? null : avgBpmValue,
+    });
+  }
+}
+
+
+        // Chart options
+        const options = {
+          series: [
+            {
+              name: "IR",
+              data: chartData.map((data) => ({ x: data.x, y: data.y1 })),
+            },
+            {
+              name: "BPM",
+              data: chartData.map((data) => ({ x: data.x, y: data.y2 })),
+            },
+            {
+              name: "Avg BPM",
+              data: chartData.map((data) => ({ x: data.x, y: data.y3 })),
+            },
+          ],
+      chart: {
+        height: 350,
+        type: "line",
+        dropShadow: {
+          enabled: true,
+          color: "#000",
+          top: 18,
+          left: 7,
+          blur: 10,
+          opacity: 0.2,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      colors: ["#77B6EA", "#545454"],
+      dataLabels: {
+        enabled: true,
+      },
+      stroke: {
+        curve: "smooth",
+      },
+      title: {
+        text: "Graph",
+        align: "left",
+      },
+      grid: {
+        borderColor: "#e7e7e7",
+        row: {
+          colors: ["#f3f3f3", "transparent"],
+          opacity: 0.5,
+        },
+      },
+      markers: {
+        size: 1,
+      },
+      xaxis: {
+        type: "datetime",
+        title: {
+          text: "Time",
+        },
+      },
+      yaxis: {
+        title: {
+          text: "Value",
+        },
+        min: 0,
+        max: 100, // Adjust the maximum value based on your data
+      },
+      legend: {
+        position: "top",
+        horizontalAlign: "right",
+        floating: true,
+        offsetY: -25,
+        offsetX: -5,
+      },
+    };
+
+    // Initialize the chart
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+  });
+</script> -->

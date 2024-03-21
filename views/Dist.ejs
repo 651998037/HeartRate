@@ -1,0 +1,237 @@
+<!-- views/Dist.ejs -->
+<%- include("_header"); -%>
+
+<style>
+
+    
+
+    /* body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    } */
+
+    /* .container {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        background-color: #f8f8f8;
+        margin-top: 200px;
+    } */
+
+    /* Add additional styling for the menu */
+    /* #menu {
+        width: 100%;
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 10px;
+
+
+        
+    } */
+
+    
+
+    .centered-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px; /* Adjust as needed */
+}
+
+.btn-primary {
+    width: 200px; /* Adjust as needed */
+    height: 80px; /* Adjust as needed */
+    font-size: 20px; /* Adjust as needed */
+    margin: 0 1cm; /* Add margin for spacing */
+}
+
+    /* Add styling for each parameter frame */
+    .parameter-frame {
+    display: inline-block; /* หรือ display: inline-flex; */
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 15px;
+    background-color: #f8f8f8;
+    box-shadow: 0px 2px 8px 5px rgba(0, 0, 0, 0.1);
+    width: 400px;  /* ปรับความกว้างของ .parameter-frame */
+    height: 200px; /* ปรับความสูงของ .parameter-frame */
+}
+
+
+    /* Add styling for the clock */
+    #clock {
+        margin-top: 20px;
+        font-size: 24px;
+        margin-left: auto;
+    }
+
+    .grafana-link {
+    margin-top: 20px; /* Adjust the value as needed */
+    display: block; /* Ensure the link is displayed as a block-level element */
+}
+    .IR_1{
+        transform: translate(-4px, -53px);
+
+
+}
+    .IR_BPM_Avg{
+        text-align: center; /* หรือใช้ display: flex; justify-content: center; */
+        /* transform: translate(-4px, -6px); */
+
+    }
+
+.grafana-button {
+        margin-top: 20px;
+    }
+
+    .p {
+    display: inline-block; /* หรือ display: inline-flex; */
+    margin: auto;
+    position: absolute;
+    top: calc(50% + 26cm );
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 15px;
+    background-color: #f8f8f8;
+    box-shadow: 0px 2px 8px 5px rgba(0, 0, 0, 0.1);
+    width: 15cm;
+    height: 10cm;
+    text-align: center; /* จัดตำแหน่งข้อความให้อยู่ตรงกลาง */
+}
+
+.p h1, .p p, .p ul {
+    margin: 0; /* กำหนดให้ไม่มี margin ที่ต้องการ */
+}
+.p {
+    background-image: url('https://cdn.discordapp.com/attachments/1093803444130811906/1217750388875333632/60-100_100_150_.png?ex=6605296d&is=65f2b46d&hm=d698d42a41f3a9d79eefe4eeaa13da4822bee17cb6009c3fa068af8e1114f8f4&'); /* ระบุที่อยู่ของรูปภาพ */
+    background-size: cover; /* ขยายขนาดรูปภาพเพื่อทำให้ครอบคลุมพื้นที่ทั้งหมด */
+    background-position: center; /* จัดตำแหน่งรูปภาพให้ตรงกลาง */
+}
+
+.background-container {
+        background-image: url('https://cdn.discordapp.com/attachments/1093803444130811906/1217750388875333632/60-100_100_150_.png?ex=6605296d&is=65f2b46d&hm=d698d42a41f3a9d79eefe4eeaa13da4822bee17cb6009c3fa068af8e1114f8f4&'); /* ระบุที่อยู่ของรูปภาพ */
+        background-size: cover; /* ขยายขนาดรูปภาพเพื่อทำให้ครอบคลุมพื้นที่ทั้งหมด */
+        background-position: center; /* จัดตำแหน่งรูปภาพให้ตรงกลาง */
+        position: relative;
+    }
+
+
+
+
+
+
+    
+</style>
+
+
+<!-- <div> -->
+
+<div class="container  mt-5">
+
+    <div class="container text-center">
+    <h1>ค่าอุปกรณ์ปัจจุบัน <i class="bi bi-heart-pulse"></i></i> </h1>
+    </div> 
+
+    <!-- Clock -->
+    <div id="clock" class="container text-center"></div>
+
+    <div class="IR_BPM_Avg" >
+
+    <!-- First Parameter Frame: IR -->
+    <div class="IR_1"   >
+    <div class="parameter-frame" style="margin-bottom: -20px;" >
+        <h4>IR (เช็คการเต้นของหัวใจ)</h4>
+        <p style="font-size: 40px; text-align: center; margin-top: 20px;" ><%= data.IRvalue %></p>
+    </div>
+</div>
+
+    <!-- Second Parameter Frame: BPM -->
+    <!-- <div class="parameter-frame">
+        <h4>BPM(อัตราการเต้นหัวใจ)</h4>
+        <p style="font-size: 40px; text-align: center; margin-top: 20px;" ><%= data.BPMvalue %></p>
+    </div> -->
+
+
+    <div class="parameter-frame">
+        <h4>BPM(อัตราการเต้นหัวใจ)</h4>
+        <p style="font-size: 40px; text-align: center; margin-top: 20px;" ><%= data.BPMvalue %></p>
+        <% if (data.BPMvalue >= 60 && data.BPMvalue <= 100) { %>
+            <p style="font-size: 20px; text-align: center; color: rgb(1, 129, 1); margin-top: 10px;">หัวใจเต้นปกติ</p>
+        <% } else if (data.BPMvalue > 100) { %>
+            <p style="font-size: 20px; text-align: center; color: rgb(161, 0, 0); margin-top: 10px;">หัวใจเต้นเร็ว </p>
+            <p style="font-size: 20px; text-align: center; color: rgb(161, 0, 0); margin-top: -20px;">อันตรายพบแพทย์ด่วน <i class="bi bi-exclamation-diamond-fill" style="color: #ff0033;"></i></p>
+            
+        <% } else { %>
+            <p style="font-size: 20px; text-align: center; color: rgb(0, 45, 128); margin-top: 10px;">หัวใจเต้นช้ากว่าปกติ</p>
+            <p style="font-size: 20px; text-align: center; color: rgb(0, 45, 128); margin-top: -20px;"> <i class="bi bi-exclamation-diamond-fill" style="color:rgb(0, 45, 128);"></i>อันตรายพบแพทย์ด่วน <i class="bi bi-exclamation-diamond-fill" style="color:rgb(0, 45, 128);"></i> </p>
+        <% } %>
+    </div>
+
+    <!-- Third Parameter Frame: Avg BPM -->
+    <div  class=" mt-4">
+    <div class="parameter-frame">
+        
+        <h4>Avg BPM (ค่าเฉลี่ยการเต้นหัวใจ)</h4>
+        <p style="font-size: 40px; text-align: center; margin-top: 20px;" ><%= data.AvgBPMvalue %></p>
+
+    
+    </div>
+</div>
+
+</div>
+
+    
+    
+</div>
+
+<!-- <p>Data from InfluxDB: <%= JSON.stringify(data) %></p> -->
+
+
+
+
+<div class="centered-link">
+<a href="https://yukidakar.grafana.net/public-dashboards/98dbc6999e494108baa8e40a3542fcae" class="btn btn-primary margin-right: 80px; style=width: 80px; mt-4"> ดูค่าgrafana</a>
+<a href="/graph" class="btn btn-primary  style=width: 80px; mt-4" > ดูข้อมูลตาราง </i> </i></a>
+
+</div>
+
+<div class="p"> </div>
+    
+
+
+
+<%- include("_footer"); -%>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<script>
+    // Function to update the clock
+    function updateClock() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+
+        // Add leading zero if needed
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        // Display the time in the #clock element
+        document.getElementById('clock').innerHTML = hours + ':' + minutes + ':' + seconds;
+
+        // Update the clock every second
+        setTimeout(updateClock, 1000);
+    }
+
+    // Call the function to initiate the clock
+    updateClock();
+</script>
